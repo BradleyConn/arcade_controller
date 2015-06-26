@@ -1,0 +1,10 @@
+#Rename file to config_flags.mk to use config flags.
+#Remove the '#' to select that config option.
+
+#options
+
+#build options
+#RELEASE - works without debugger attached (simply needs power).
+#DEBUG   - requires debugger to run.
+#BUILD=RELEASE
+#BUILD=DEBUG
