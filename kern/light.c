@@ -5,8 +5,7 @@
 
 void SystemInit(void) {
 	// Clock the GPIO modules we'll be using
-        RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOGEN;
-
+	RCC->AHB1ENR |= 1 << /*GPIO module A*/ 0 | 1 << /*module D*/3;
 
 	// Tell the NVIC to respond to IRQ 6
 	NVIC->ISER[0] |= 1 << /*EXTI0*/6;
@@ -21,16 +20,15 @@ void SystemInit(void) {
 	EXTI->EMR |= /*low-order (external interrupt line 0) event handling on*/0x1;
 
 	// Set the LED GPIO pins to function as digital outputs
-	GPIOG->MODER |= /*dout*/1 << (/*pin 13*/13 * 2) | 1 << (14 * 2);
-
+	GPIOD->MODER |= /*dout*/1 << (/*pin 13*/13 * 2) | 1 << (14 * 2) | 1 << (12 * 2) | 1 << (15 * 2);
 }
 
 void EXTI0_Handler(void) {
 	// Change the LED pattern up!
 	static uint16_t combo = 0;
-	combo = (combo + 1) % 0x04;
-	uint16_t tmp = (GPIOG->ODR & 0x9fff) | combo << /*pins 13 and 14*/13;
-	GPIOG->ODR = tmp;
+	combo = (combo + 1) % 0x10;
+	uint16_t tmp = (GPIOD->ODR & 0x0fff) | combo << /*pins 12 and up*/12;
+	GPIOD->ODR = tmp;
 
 	// Inform the external interrupt controller that we handled the IRQ
 	EXTI->PR = /*line 0*/0x1;

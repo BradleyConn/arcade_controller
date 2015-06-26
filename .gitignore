@@ -1,4 +1,6 @@
+/boot/startup_stm32f4xx.s
+/build/stm32_flash.ld
+
 *.d
 *.o
 *.t
-light
