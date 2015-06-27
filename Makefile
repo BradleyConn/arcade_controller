@@ -1,6 +1,9 @@
-BIN := light
+BIN := main
 LDSCRIPT := build/gcc.ld
-OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/light.o
+OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/main.o HAL_INCLUDES/system_stm32f4xx.o HAL_INCLUDES/stm32f4xx_it.o 
+
+#libs
+HALOBJS  := $(patsubst %.c,%.o,$(wildcard lib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Src/*.c))
 
 vpath %.o boot:kern
 
@@ -14,7 +17,7 @@ OBJCOPY := $(PREFIX)objcopy
 OBJDUMP := $(PREFIX)objdump
 
 ARCHFLAGS := -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -mfloat-abi=hard
-CPPFLAGS := -Ilib/CMSIS/Include -Ilib/CMSIS/Device/ST/STM32F4xx/Include -DSTM32F407xx
+CPPFLAGS := -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Inc -IHAL_INCLUDES -DSTM32F407xx
 ASFLAGS := $(ARCHFLAGS)
 CFLAGS := $(ARCHFLAGS) -std=c99 -g -Wall -Wextra
 ifeq ("$(BUILD)","RELEASE")
@@ -23,7 +26,7 @@ else
 LDFLAGS := $(ARCHFLAGS) -specs=rdimon.specs -T$(LDSCRIPT)
 endif
 
-$(BIN): $(OBJS)
+$(BIN): $(OBJS) $(HALOBJS)
 
 debug: $(BIN)
 	$(DB) -iex "add-auto-load-safe-path .gdbinit" $<
@@ -34,7 +37,7 @@ flash: $(BIN)
 clean:
 	$(RM) $(OBJS)
 distclean: clean
-	$(RM) $(BIN) $(BIN).d $(BIN).t
+	$(RM) $(BIN) $(BIN).d $(BIN).t $(HALOBJS)
 
 %.d: %
 	$(OBJDUMP) -d $< >$@
