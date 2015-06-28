@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file           : USB_DEVICE
-  * @date           : 27/06/2015 18:51:22  
+  * @date           : 27/06/2015 18:51:22
   * @version        : v1.0_Cube
   * @brief          : This file implements the USB Device 
   ******************************************************************************
@@ -53,7 +53,6 @@ void MX_USB_DEVICE_Init(void)
 
   USBD_Start(&hUsbDeviceFS);
 
-  HAL_Delay(1000);
   USBD_SetupReqTypedef request = {0};
     request.bRequest = USB_REQ_SET_ADDRESS;
     request.wValue = 0x01;
@@ -61,43 +60,34 @@ void MX_USB_DEVICE_Init(void)
     if (result !=  USBD_OK) {
         puts("bad init");
     }
-    else {
-        puts("good init");
-    }
-    HAL_Delay(1000);
+    HAL_Delay(200); // Needs this delay to work.
     request.bRequest = USB_REQ_SET_CONFIGURATION;
     request.wValue = 0x55;
     result =  USBD_StdDevReq (&hUsbDeviceFS, &request);
     if (result !=  USBD_OK) {
         puts("bad init");
     }
-    else {
-        puts("good init");
-    }
-    HAL_Delay(1000);
-    uint8_t report[9];
-    report [ 0 ] = 0x00;
-    report [ 1 ] = 0x0a;;
-    report [ 2 ] = 0x0b;
-    report [ 3 ] = 0x0c;
-    report [ 4 ] = 0x0d;
-    report [ 5 ] = 0x0e;
-    report [ 6 ] = 0x0f;
-    report [ 7 ] = 0x0a;
-    report [ 8 ] = 0x0b;
-    USBD_HID_SendReport(&hUsbDeviceFS, report,9);
-    HAL_Delay(1000);
-    report [ 0 ] = 0x00;
-    report [ 1 ] = 0x00;
-    report [ 2 ] = 0x00;
-    report [ 3 ] = 0x00;
-    report [ 4 ] = 0x00;
-    report [ 5 ] = 0x00;
-    report [ 6 ] = 0x00;
-    report [ 7 ] = 0x00;
-    report [ 8 ] = 0x00;
-    USBD_HID_SendReport(&hUsbDeviceFS, report,9);
-
+    HAL_Delay(200); // Needs this delay to work.
+    uint8_t report[8];
+    report [0] = 0x02; // cntrl
+    report [1] = 0x00; // padding
+    report [2] = 0x0a; // key 1
+    report [3] = 0x0b; // key 2
+    report [4] = 0x0c; // key 3
+    report [5] = 0x0d; // key 4
+    report [6] = 0x0e; // key 5
+    report [7] = 0x0f; // key 6
+    USBD_HID_SendReport(&hUsbDeviceFS, report,8);
+    HAL_Delay(20);
+    report [0] = 0x00;
+    report [1] = 0x00;
+    report [2] = 0x00;
+    report [3] = 0x00;
+    report [4] = 0x00;
+    report [5] = 0x00;
+    report [6] = 0x00;
+    report [7] = 0x00;
+    USBD_HID_SendReport(&hUsbDeviceFS, report,8);
 }
 /**
   * @}
