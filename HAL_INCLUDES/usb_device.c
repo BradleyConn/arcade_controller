@@ -56,7 +56,7 @@ void MX_USB_DEVICE_Init(void)
   HAL_Delay(1000);
   USBD_SetupReqTypedef request = {0};
     request.bRequest = USB_REQ_SET_ADDRESS;
-    request.wValue = 0x11;
+    request.wValue = 0x01;
   USBD_StatusTypeDef  result =  USBD_StdDevReq (&hUsbDeviceFS, &request);
     if (result !=  USBD_OK) {
         puts("bad init");
@@ -66,7 +66,7 @@ void MX_USB_DEVICE_Init(void)
     }
     HAL_Delay(1000);
     request.bRequest = USB_REQ_SET_CONFIGURATION;
-    request.wValue = 0x1;
+    request.wValue = 0x55;
     result =  USBD_StdDevReq (&hUsbDeviceFS, &request);
     if (result !=  USBD_OK) {
         puts("bad init");
