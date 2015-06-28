@@ -1,12 +1,16 @@
 #include "keyboard.h"
+#include "stm32f4xx_hal_pcd.h"
 
+#include "usbd_conf.h"
 #include "usbd_hid.h"
-#include "usbd_conf_template.h"
 #include "usbd_core.h"
 #include "usbd_ctlreq.h"
+#include "usbd_desc.h"
 #include "usbd_ioreq.h"
 
 void usb_init(void) {
+    PCD_HandleTypeDef PCD_Handle;
+    HAL_PCD_MspInit(&PCD_Handle);
     USBD_HandleTypeDef USBD_Handle = {0};
         //uint8_t                 id;
         //uint32_t                dev_config;
@@ -30,7 +34,7 @@ void usb_init(void) {
         //void                    *pClassData;  
         //void                    *pUserData;    
         //void                    *pData;    
-    USBD_DescriptorsTypeDef USBD_Descriptor;
+    USBD_DescriptorsTypeDef USBD_Descriptor = HID_Desc;
         /* uint8_t  *(*GetDeviceDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */  
         /* uint8_t  *(*GetLangIDStrDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */ 
         /* uint8_t  *(*GetManufacturerStrDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */  
@@ -90,3 +94,30 @@ void usb_init(void) {
  //                                uint16_t len)
 }
 
+void UART8_IRQHandler(void) {
+
+    puts("weeee");
+}
+void USART6_IRQHandler(void) {
+
+    puts("argggg");
+}
+void USART3_IRQHandler(void) {
+
+    puts("phooo");
+}
+void USART2_IRQHandler(void) {
+
+    puts("weeee");
+}
+void USART1_IRQHandler(void) {
+
+    puts("oneee");
+}
+void UART7_IRQHandler(void){puts("ake");}
+void UART6_IRQHandler(void){puts("ake");}
+void UART5_IRQHandler(void){puts("ake");}
+void UART4_IRQHandler(void){puts("ake");}
+void UART3_IRQHandler(void){puts("ake");}
+void UART2_IRQHandler(void){puts("ake");}
+void UART1_IRQHandler(void){puts("ake");}

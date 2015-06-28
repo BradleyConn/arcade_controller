@@ -36,12 +36,6 @@
 #include "stm32f4xx_hal.h"
 #include "keyboard.h"
 
-#include "usbd_hid.h"
-#include "usbd_conf_template.h"
-#include "usbd_core.h"
-#include "usbd_ctlreq.h"
-#include "usbd_ioreq.h"
-
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN 0 */
