@@ -1,8 +1,9 @@
 /**
   ******************************************************************************
-  * @file    stm32f4xx_it.h
-  * @date    27/06/2015 18:51:22
-  * @brief   This file contains the headers of the interrupt handlers.
+  * File Name          : stm32f4xx_hal_msp.c
+  * Date               : 27/06/2015 18:51:22
+  * Description        : This file provides code for the MSP Initialization 
+  *                      and de-Initialization codes.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2015 STMicroelectronics
@@ -31,28 +32,23 @@
   *
   ******************************************************************************
   */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F4xx_IT_H
-#define __STM32F4xx_IT_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif 
-
 /* Includes ------------------------------------------------------------------*/
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
+#include "stm32f4xx_hal.h"
 
-void SysTick_Handler(void);
-void OTG_FS_IRQHandler(void);
+/* USER CODE BEGIN 0 */
 
-#ifdef __cplusplus
-}
-#endif
+/* USER CODE END 0 */
 
-#endif /* __STM32F4xx_IT_H */
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

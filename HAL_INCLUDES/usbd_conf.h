@@ -1,50 +1,53 @@
 /**
   ******************************************************************************
-  * @file    usbd_conf_template.h
-  * @author  MCD Application Team
-  * @version V2.4.0
-  * @date    28-February-2015
-  * @brief   Header file for the usbd_conf_template.c file
+  * @file           : usbd_conf.h
+  * @date           : 27/06/2015 18:51:22  
+  * @version        : v1.0_Cube
+  * @brief          : Header for usbd_conf file.
   ******************************************************************************
-  * @attention
+  * COPYRIGHT(c) 2015 STMicroelectronics
   *
-  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
+  * Redistribution and use in source and binary forms, with or without modification,
+  * are permitted provided that the following conditions are met:
+  * 1. Redistributions of source code must retain the above copyright notice,
+  * this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  * this list of conditions and the following disclaimer in the documentation
+  * and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of its contributors
+  * may be used to endorse or promote products derived from this software
+  * without specific prior written permission.
   *
-  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
-  * You may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at:
-  *
-  *        http://www.st.com/software_license_agreement_liberty_v2
-  *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
+  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */
-
+*/
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USBD_CONF_TEMPLATE_H
-#define __USBD_CONF_TEMPLATE_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
+#ifndef __USBD_CONF__H__
+#define __USBD_CONF__H__
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"  /* replace 'stm32xxx' with your HAL driver header filename, ex: stm32f4xx.h */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal.h"
+#include "usbd_def.h"
 
-/** @addtogroup STM32_USB_DEVICE_LIBRARY
+/** @addtogroup USBD_OTG_DRIVER
   * @{
   */
   
 /** @defgroup USBD_CONF
-  * @brief USB device low level driver configuration file
+  * @brief usb otg low level driver configuration file
   * @{
   */ 
 
@@ -52,25 +55,22 @@
   * @{
   */ 
 
-#define USBD_MAX_NUM_INTERFACES               1
-#define USBD_MAX_NUM_CONFIGURATION            1
-#define USBD_MAX_STR_DESC_SIZ                 0x100
-#define USBD_SUPPORT_USER_STRING              0 
-#define USBD_SELF_POWERED                     1
-#define USBD_DEBUG_LEVEL                      2
-
-/* MSC Class Config */
-#define MSC_MEDIA_PACKET                       8192   
-
-/* CDC Class Config */
-#define USBD_CDC_INTERVAL                      2000  
-
- /* DFU Class Config */
-#define USBD_DFU_MAX_ITF_NUM                   1
-#define USBD_DFU_XFERS_IZE                     1024
-
- /* AUDIO Class Config */
-#define USBD_AUDIO_FREQ                       22100 
+/*---------- -----------*/
+#define USBD_MAX_NUM_INTERFACES     1
+/*---------- -----------*/
+#define USBD_MAX_NUM_CONFIGURATION     1
+/*---------- -----------*/
+#define USBD_MAX_STR_DESC_SIZ     512
+/*---------- -----------*/
+#define USBD_SUPPORT_USER_STRING     0
+/*---------- -----------*/
+#define USBD_DEBUG_LEVEL     0
+/*---------- -----------*/
+#define USBD_SELF_POWERED     1
+/****************************************/
+/* #define for FS and HS identification */
+#define DEVICE_FS 		0
+#define DEVICE_HS 		1
 
 /** @defgroup USBD_Exported_Macros
   * @{
@@ -81,10 +81,11 @@
 #define USBD_free                 free
 #define USBD_memset               memset
 #define USBD_memcpy               memcpy
+
+#define USBD_Delay   HAL_Delay
     
  /* DEBUG macros */  
 
-  
 #if (USBD_DEBUG_LEVEL > 0)
 #define  USBD_UsrLog(...)   printf(__VA_ARGS__);\
                             printf("\n");
@@ -121,14 +122,12 @@
   * @}
   */ 
 
-
 /** @defgroup USBD_CONF_Exported_Types
   * @{
   */ 
 /**
   * @}
   */ 
-
 
 /** @defgroup USBD_CONF_Exported_Macros
   * @{
@@ -151,12 +150,7 @@
   * @}
   */ 
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* __USBD_CONF_TEMPLATE_H */
-
+#endif //__USBD_CONF__H__
 
 /**
   * @}

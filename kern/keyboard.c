@@ -34,7 +34,7 @@ void usb_init(void) {
         //void                    *pClassData;  
         //void                    *pUserData;    
         //void                    *pData;    
-    USBD_DescriptorsTypeDef USBD_Descriptor = HID_Desc;
+    USBD_DescriptorsTypeDef USBD_Descriptor = FS_Desc;
         /* uint8_t  *(*GetDeviceDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */  
         /* uint8_t  *(*GetLangIDStrDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */ 
         /* uint8_t  *(*GetManufacturerStrDescriptor)( USBD_SpeedTypeDef speed , uint16_t *length); */  
@@ -85,8 +85,17 @@ void usb_init(void) {
     else {
         puts("good init");
     }
-    uint8_t report[6] = "HELLO";
+    uint8_t report[6];
+    for (int i=0; i<250; i++){
+    report [ 0 ] = i;
+    report [ 1 ] = i+1;
+    report [ 2 ] = i+2;
+    report [ 3 ] = i+3;
+    report [ 4 ] = i+4;
+    report [ 5 ] = i+5;
+    report [ 6 ] = i+6;
     USBD_HID_SendReport(&USBD_Handle, report,6);
+    }
 
 //    USBD_HID_SendReport();
 //uint8_t USBD_HID_SendReport     (USBD_HandleTypeDef  *pdev, 
