@@ -76,32 +76,6 @@ int main(void)
   key_table_t table;
   reset_key_table(&table);
 
-  table.control_keys[LEFT_SHIFT] = true;
-  table.individual_keys[4] = KEY_B;
-  send_key_press(&table);
-  table.control_keys[LEFT_SHIFT] = false;
-  table.individual_keys[0] = KEY_R;
-  table.individual_keys[1] = KEY_A;
-  table.individual_keys[2] = KEY_D;
-  table.individual_keys[3] = KEY_L;
-  table.individual_keys[4] = KEY_E;
-  table.individual_keys[5] = KEY_Y;
-  send_key_press(&table);
-  reset_key_table(&table);
-  table.individual_keys[0] = KEY_SPACEBAR;
-  send_key_press(&table);
-  table.control_keys[LEFT_SHIFT] = true;
-  table.individual_keys[0] = KEY_C;
-  send_key_press(&table);
-  table.control_keys[LEFT_SHIFT] = false;
-  table.individual_keys[0] = KEY_O;
-  table.individual_keys[1] = KEY_N;
-  send_key_press(&table);
-  send_keys_released();
-  table.individual_keys[0] = NO_KEY;
-  send_key_press(&table);
-  send_keys_released();
-
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -110,12 +84,6 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-    if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9)) {
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-        HAL_Delay(500);
-        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-        HAL_Delay(500);
-    }
   }
   /* USER CODE END 3 */
 
