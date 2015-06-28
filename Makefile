@@ -1,6 +1,6 @@
 BIN := main
 LDSCRIPT := build/gcc.ld
-OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/main.o kern/keyboard.o HAL_INCLUDES/system_stm32f4xx.o HAL_INCLUDES/stm32f4xx_it.o 
+OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/main.o kern/keyboard.o HAL_INCLUDES/system_stm32f4xx.o HAL_INCLUDES/stm32f4xx_it.o HAL_INCLUDES/usbd_desc.o
 
 #libs
 HALOBJS  := $(patsubst %.c,%.o,$(wildcard lib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Src/*.c))
