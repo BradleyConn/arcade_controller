@@ -1,9 +1,11 @@
 BIN := main
 LDSCRIPT := build/gcc.ld
-OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/main.o HAL_INCLUDES/system_stm32f4xx.o HAL_INCLUDES/stm32f4xx_it.o 
+OBJS := boot/startup_ARMCM4.o boot/isr_vector_extended.o kern/main.o kern/keyboard.o HAL_INCLUDES/system_stm32f4xx.o HAL_INCLUDES/stm32f4xx_it.o 
 
 #libs
 HALOBJS  := $(patsubst %.c,%.o,$(wildcard lib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Src/*.c))
+USBCLASSOBJS := $(patsubst %.c,%.o,$(wildcard lib/STM32Cube_FW_F4_V1.6.0/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/*.c))
+USBCOREOBJS := $(patsubst %.c,%.o,$(wildcard lib/STM32Cube_FW_F4_V1.6.0/Middlewares/ST/STM32_USB_Device_Library/Core/Src/*.c))
 
 vpath %.o boot:kern
 
@@ -17,7 +19,7 @@ OBJCOPY := $(PREFIX)objcopy
 OBJDUMP := $(PREFIX)objdump
 
 ARCHFLAGS := -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -mfloat-abi=hard
-CPPFLAGS := -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Inc -IHAL_INCLUDES -DSTM32F407xx
+CPPFLAGS := -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include -Ilib/STM32Cube_FW_F4_V1.6.0/Drivers/STM32F4xx_HAL_Driver/Inc -Ilib/STM32Cube_FW_F4_V1.6.0/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc -Ilib/STM32Cube_FW_F4_V1.6.0/Middlewares/ST/STM32_USB_Device_Library/Core/Inc -IHAL_INCLUDES -DSTM32F407xx
 ASFLAGS := $(ARCHFLAGS)
 CFLAGS := $(ARCHFLAGS) -std=c99 -g -Wall -Wextra
 ifeq ("$(BUILD)","RELEASE")
@@ -37,7 +39,7 @@ flash: $(BIN)
 clean:
 	$(RM) $(OBJS)
 distclean: clean
-	$(RM) $(BIN) $(BIN).d $(BIN).t $(HALOBJS)
+	$(RM) $(BIN) $(BIN).d $(BIN).t $(OBJS) $(HALOBJS) $(USBCLASSOBJS) $(USBCOREOBJS)
 
 %.d: %
 	$(OBJDUMP) -d $< >$@
