@@ -28,7 +28,7 @@ else
 LDFLAGS := $(ARCHFLAGS) -specs=rdimon.specs -T$(LDSCRIPT)
 endif
 
-$(BIN): $(OBJS) $(HALOBJS)
+$(BIN): $(OBJS) $(HALOBJS) $(USBCLASSOBJS) $(USBCOREOBJS)
 
 debug: $(BIN)
 	$(DB) -iex "add-auto-load-safe-path .gdbinit" $<
