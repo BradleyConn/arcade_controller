@@ -68,27 +68,75 @@ void MX_USB_DEVICE_Init(void)
         puts("bad init");
     }
     HAL_Delay(200); // Needs this delay to work.
-    uint8_t report[8];
-    report [0] = 0x02; // cntrl
-    report [1] = 0x00; // padding
-    report [2] = 0x0a; // key 1
-    report [3] = 0x0b; // key 2
-    report [4] = 0x0c; // key 3
-    report [5] = 0x0d; // key 4
-    report [6] = 0x0e; // key 5
-    report [7] = 0x0f; // key 6
-    USBD_HID_SendReport(&hUsbDeviceFS, report,8);
+}
+
+void send_key_press(key_table_t * table) {
     HAL_Delay(20);
-    report [0] = 0x00;
-    report [1] = 0x00;
-    report [2] = 0x00;
-    report [3] = 0x00;
-    report [4] = 0x00;
-    report [5] = 0x00;
-    report [6] = 0x00;
-    report [7] = 0x00;
+    uint8_t report[8];
+    
+    // fist the control keys
+    report[0] = 0x00;
+    report[0] = table->control_keys[RIGHT_GUI  ] << 7
+              | table->control_keys[RIGHT_ALT  ] << 6
+              | table->control_keys[RIGHT_SHIFT] << 5
+              | table->control_keys[RIGHT_CTRL ] << 4
+              | table->control_keys[LEFT_GUI   ] << 3
+              | table->control_keys[LEFT_ALT   ] << 2
+              | table->control_keys[LEFT_SHIFT ] << 1
+              | table->control_keys[LEFT_CTRL  ] << 0;
+
+    // one for the padding
+    report[1] = 0x00;
+
+    // the individual keys
+    report[2] = table->individual_keys[0];
+    report[3] = table->individual_keys[1];
+    report[4] = table->individual_keys[2];
+    report[5] = table->individual_keys[3];
+    report[6] = table->individual_keys[4];
+    report[7] = table->individual_keys[5];
     USBD_HID_SendReport(&hUsbDeviceFS, report,8);
 }
+void send_keys_released(void) {
+    HAL_Delay(20);
+    uint8_t report[8];
+    report[0] = NO_KEY;
+    report[1] = NO_KEY;
+    report[2] = NO_KEY;
+    report[3] = NO_KEY;
+    report[4] = NO_KEY;
+    report[5] = NO_KEY;
+    report[6] = NO_KEY;
+    report[7] = NO_KEY;
+    USBD_HID_SendReport(&hUsbDeviceFS, report,8);
+}
+
+void reset_key_table(key_table_t * table) {
+    // Reset the control keys
+    table->control_keys[RIGHT_GUI  ] = false;
+    table->control_keys[RIGHT_ALT  ] = false;
+    table->control_keys[RIGHT_SHIFT] = false;
+    table->control_keys[RIGHT_CTRL ] = false;
+    table->control_keys[LEFT_GUI   ] = false;
+    table->control_keys[LEFT_ALT   ] = false;
+    table->control_keys[LEFT_SHIFT ] = false;
+    table->control_keys[LEFT_CTRL  ] = false;
+    // Reset the individual keys
+    table->individual_keys[0] = NO_KEY;
+    table->individual_keys[1] = NO_KEY;
+    table->individual_keys[2] = NO_KEY;
+    table->individual_keys[3] = NO_KEY;
+    table->individual_keys[4] = NO_KEY;
+    table->individual_keys[5] = NO_KEY;
+}
+
+
+
+
+
+
+
+
 /**
   * @}
   */

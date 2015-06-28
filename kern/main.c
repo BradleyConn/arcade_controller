@@ -36,6 +36,8 @@
 #include "stm32f4xx_hal.h"
 #include "usb_device.h"
 
+#include <stdbool.h>
+
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN 0 */
@@ -69,6 +71,35 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
+
+  key_table_t table;
+  reset_key_table(&table);
+
+  table.control_keys[LEFT_SHIFT] = true;
+  table.individual_keys[4] = KEY_B;
+  send_key_press(&table);
+  table.control_keys[LEFT_SHIFT] = false;
+  table.individual_keys[0] = KEY_R;
+  table.individual_keys[1] = KEY_A;
+  table.individual_keys[2] = KEY_D;
+  table.individual_keys[3] = KEY_L;
+  table.individual_keys[4] = KEY_E;
+  table.individual_keys[5] = KEY_Y;
+  send_key_press(&table);
+  reset_key_table(&table);
+  table.individual_keys[0] = KEY_SPACEBAR;
+  send_key_press(&table);
+  table.control_keys[LEFT_SHIFT] = true;
+  table.individual_keys[0] = KEY_C;
+  send_key_press(&table);
+  table.control_keys[LEFT_SHIFT] = false;
+  table.individual_keys[0] = KEY_O;
+  table.individual_keys[1] = KEY_N;
+  send_key_press(&table);
+  send_keys_released();
+  table.individual_keys[0] = NO_KEY;
+  send_key_press(&table);
+  send_keys_released();
 
   /* USER CODE BEGIN 2 */
 
