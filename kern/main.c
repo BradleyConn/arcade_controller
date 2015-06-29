@@ -34,7 +34,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-#include "usb_device.h"
+#include "keyboard.h"
 
 #include <stdbool.h>
 
@@ -46,6 +46,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+// TODO: Break up this funciton into the individual gpio parts.
 static void MX_GPIO_Init(void);
 
 int main(void)
@@ -70,20 +71,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USB_DEVICE_Init();
+  keyboard_init();
 
-
-  key_table_t table;
-  reset_key_table(&table);
-
-  /* USER CODE BEGIN 2 */
-
-  /* USER CODE END 2 */
-
-  /* USER CODE BEGIN 3 */
-  /* Infinite loop */
   while (1)
   {
+      keyboard_poll_gpio();
+      keyboard_transmit_data();
   }
   /* USER CODE END 3 */
 
