@@ -62,7 +62,7 @@ void MX_USB_DEVICE_Init(void)
     }
     HAL_Delay(200); // Needs this delay to work.
     request.bRequest = USB_REQ_SET_CONFIGURATION;
-    request.wValue = 0x55;
+    request.wValue = 0x0;
     result =  USBD_StdDevReq (&hUsbDeviceFS, &request);
     if (result !=  USBD_OK) {
         puts("bad init");
@@ -71,31 +71,54 @@ void MX_USB_DEVICE_Init(void)
 }
 
 void send_key_press(key_table_t * table) {
-    HAL_Delay(20);
-    uint8_t report[8];
+    HAL_Delay(90);
+    /* uint8_t report[8]; */
     
-    // fist the control keys
-    report[0] = 0x00;
-    report[0] = table->control_keys[RIGHT_GUI  ] << 7
-              | table->control_keys[RIGHT_ALT  ] << 6
-              | table->control_keys[RIGHT_SHIFT] << 5
-              | table->control_keys[RIGHT_CTRL ] << 4
-              | table->control_keys[LEFT_GUI   ] << 3
-              | table->control_keys[LEFT_ALT   ] << 2
-              | table->control_keys[LEFT_SHIFT ] << 1
-              | table->control_keys[LEFT_CTRL  ] << 0;
+    /* // fist the control keys */
+    /* report[0] = 0x00; */
+    /* report[0] = table->control_keys[RIGHT_GUI  ] << 7 */
+    /*           | table->control_keys[RIGHT_ALT  ] << 6 */
+    /*           | table->control_keys[RIGHT_SHIFT] << 5 */
+    /*           | table->control_keys[RIGHT_CTRL ] << 4 */
+    /*           | table->control_keys[LEFT_GUI   ] << 3 */
+    /*           | table->control_keys[LEFT_ALT   ] << 2 */
+    /*           | table->control_keys[LEFT_SHIFT ] << 1 */
+    /*           | table->control_keys[LEFT_CTRL  ] << 0; */
 
-    // one for the padding
-    report[1] = 0x00;
+    /* // one for the padding */
+    /* report[1] = 0x00; */
 
-    // the individual keys
-    report[2] = table->individual_keys[0];
-    report[3] = table->individual_keys[1];
-    report[4] = table->individual_keys[2];
-    report[5] = table->individual_keys[3];
-    report[6] = table->individual_keys[4];
-    report[7] = table->individual_keys[5];
-    USBD_HID_SendReport(&hUsbDeviceFS, report,8);
+    /* // the individual keys */
+    /* report[2] = table->individual_keys[0]; */
+    /* report[3] = table->individual_keys[1]; */
+    /* report[4] = table->individual_keys[2]; */
+    /* report[5] = table->individual_keys[3]; */
+    /* report[6] = table->individual_keys[4]; */
+    /* report[7] = table->individual_keys[5]; */
+    /* USBD_HID_SendReport(&hUsbDeviceFS, report,8); */
+    uint8_t report[9];
+    report[0]=0x01;
+    report[1]=0x00;
+    report[2]=0x00;
+    report[3]=0x04;
+    report[4]=0x0a;
+    report[5]=0x0b;
+    report[6]=0x0c;
+    report[7]=0x0d;
+    report[8]=0x0e;
+    USBD_HID_SendReport(&hUsbDeviceFS, report,9);
+    HAL_Delay(100);
+    report[0]=0x01;
+    report[1]=0x00;
+    report[2]=0x00;
+    report[3]=0x00;
+    report[4]=0x00;
+    report[5]=0x00;
+    report[6]=0x00;
+    report[7]=0x00;
+    report[8]=0x00;
+    USBD_HID_SendReport(&hUsbDeviceFS, report,9);
+    
 }
 void send_keys_released(void) {
     HAL_Delay(20);
