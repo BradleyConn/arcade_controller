@@ -71,7 +71,7 @@ void MX_USB_DEVICE_Init(void)
 }
 
 void send_key_press(key_table_t * table) {
-    HAL_Delay(90);
+    HAL_Delay(1);
     uint8_t report[9];
     
     // fist the control keys
